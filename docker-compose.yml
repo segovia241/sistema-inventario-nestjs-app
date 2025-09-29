@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: inventario-db
+    environment:
+      POSTGRES_USER: admin_inventario
+      POSTGRES_PASSWORD: Inventario123!
+      POSTGRES_DB: inventario_hw
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  nestjs:
+    build: .
+    container_name: inventario-backend
+    command: npm run start:dev
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: admin_inventario
+      DB_PASSWORD: Inventario123!
+      DB_NAME: inventario_hw
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  pgdata:
