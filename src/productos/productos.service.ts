@@ -16,8 +16,12 @@ export class ProductosService {
   }
 
   async findAll(): Promise<Producto[]> {
-    return await this.productoRepo.find({ order: { nombre: 'ASC' } });
+    return await this.productoRepo.find({
+      where: { estado: 1 },
+      order: { nombre: 'ASC' },
+    });
   }
+
 
   async findOne(id: number): Promise<Producto> {
     const producto = await this.productoRepo.findOne({ where: { id_producto: id } });
