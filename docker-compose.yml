@@ -11,7 +11,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data
     restart: unless-stopped
 
   nestjs:
@@ -21,7 +21,6 @@ services:
     working_dir: /app
     volumes:
       - .:/app
-      - /app/node_modules
     ports:
       - "3000:3000"
     environment:
@@ -33,6 +32,3 @@ services:
     depends_on:
       - postgres
     restart: unless-stopped
-
-volumes:
-  pgdata:
